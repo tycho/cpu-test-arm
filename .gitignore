@@ -1,0 +1,10 @@
+/.sconsign.dblite
+/.sconf_temp
+/config.log
+/cpu_test-arm
+/cpu_test-thumb
+
+/build.h
+/license.h
+
+*.o
