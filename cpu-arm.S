@@ -107,10 +107,9 @@ ENTRY(test1pp)
 	ands r0, r4, #5
 	.rept 8
 #ifdef THUMB
-	itt eq
+	ittee eq
 	addeq r1, r4
 	addeq r2, r4
-	itt ne
 	addne r3, r4
 	addne r5, r4
 #else
