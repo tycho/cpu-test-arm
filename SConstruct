@@ -136,6 +136,7 @@ thumb.Append(ASFLAGS='-mthumb')
 sources = [
 	'main.c',
 	'cpu-arm.S',
+	'util.c',
 	'version.c',
 	]
 
