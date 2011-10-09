@@ -1,4 +1,5 @@
 #include "prefix.h"
+#include "cpu-arm.h"
 #include "util.h"
 #include "version.h"
 
@@ -15,22 +16,6 @@
 uint64_t vRefSpeed;
 uint32_t vfClocksOnly;
 uint32_t volatile vt1;
-
-extern void testnull(void);
-extern void test1i(void);
-extern void test1if(void);
-extern void test1ix(void);
-extern void test1m(void);
-extern void test1m2(void);
-extern void test1pp(void);
-extern void test1pb(void);
-extern void test2i(void);
-extern void test2if(void);
-extern void test2ix(void);
-extern void test2m(void);
-extern void test3i(void);
-extern void test3m(void);
-extern void test4i(void);
 
 /* in microseconds */
 static uint32_t get_overhead(void)
