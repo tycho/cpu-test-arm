@@ -94,18 +94,19 @@ static void run_test(void (*btest)(void), uint32_t (*ttest)(void), char *title, 
 
 	printf("%-19s: %9.2f ms, ", title, (float)td / 1000.0f);
 
+	ips = ((float)tinst / ((float)td / 1000.0f)) / 1000.0f;
+
 	if (tinst / td == 0)
 	{
 		printf("%9lu ns/test, ", (td * 1000L) / tinst);
-		printf(" 0.%03lu MIPS, ", tinst * 1000L / td);
+		printf("%6.3f MIPS, ", ips);
 	}
 	else
 	{
 		printf("%9llu ps/test, ", (td * 1000000LL) / tinst);
-		printf("%6u MIPS, ", tinst / td);
+		printf("%6.0f MIPS, ", ips);
 	}
 
-	ips = ((float)tinst / ((float)td / 1000.0f)) / 1000.0f;
 
 	if (vRefSpeed == 0)
 		vRefSpeed = (uint32_t)ips;
