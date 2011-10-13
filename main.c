@@ -14,7 +14,7 @@
 #define LOOPS 6000000
 #define INSTR 32
 
-uint64_t vRefSpeed;
+uint32_t vRefSpeed;
 int32_t vfSimpleTests;
 int32_t vfKernelTests;
 int32_t vfClocksOnly;
@@ -48,7 +48,7 @@ static void run_test(void (*btest)(void), uint32_t (*ttest)(void), char *title, 
 {
 	static uint32_t overhead = 0;
 	uint32_t i, t1, t2, td, min = (uint32_t)-1, res;
-	uint32_t ips;
+	float ips;
 	uint32_t tinst = instr * loops;
 	float ipc, clk;
 
@@ -78,9 +78,9 @@ static void run_test(void (*btest)(void), uint32_t (*ttest)(void), char *title, 
 			if (t2 == t1)
 				t2++;
 
-			td = (t2 - t1 - overhead) / 1000L;
+			td = (t2 - t1 - overhead);
 		} else if (ttest) {
-			td = (*ttest)() / 1000L;
+			td = (*ttest)();
 		} else {
 			abort();
 		}
@@ -92,23 +92,23 @@ static void run_test(void (*btest)(void), uint32_t (*ttest)(void), char *title, 
 	if (td < 1)
 		td = 1;
 
-	printf("%-19s: %7d ms, ", title, td);
+	printf("%-19s: %9.2f ms, ", title, (float)td / 1000.0f);
 
-	if (tinst / td / 1000L == 0)
+	if (tinst / td == 0)
 	{
-		printf("%9lu ns/test, ", (td * 1000000L) / tinst);
+		printf("%9lu ns/test, ", (td * 1000L) / tinst);
 		printf(" 0.%03lu MIPS, ", tinst * 1000L / td);
 	}
 	else
 	{
-		printf("%9llu ps/test, ", (td * 1000000000LL) / tinst);
-		printf("%6lu MIPS, ", tinst / td / 1000L);
+		printf("%9llu ps/test, ", (td * 1000000LL) / tinst);
+		printf("%6u MIPS, ", tinst / td);
 	}
 
-	ips = tinst / td;
+	ips = ((float)tinst / ((float)td / 1000.0f)) / 1000.0f;
 
 	if (vRefSpeed == 0)
-		vRefSpeed = ips;
+		vRefSpeed = (uint32_t)ips;
 
 	ipc = (float)ips / (float)vRefSpeed;
 	clk = (float)vRefSpeed / (float)ips;
@@ -116,9 +116,9 @@ static void run_test(void (*btest)(void), uint32_t (*ttest)(void), char *title, 
 	/* If we're pushing enough instructions through per
 	   clock cycle, print IPC instead of clocks. */
 	if (!vfClocksOnly && ipc >= 1.1f)
-		printf("%1.1f IPC", ipc);
+		printf("%8.1f IPC", ipc);
 	else
-		printf("%1.1f clk", clk);
+		printf("%8.1f clk", clk);
 
 	printf("\n");
 	fflush(stdout);
@@ -178,11 +178,10 @@ int main(int argc, char **argv)
 			break;
 		case 'm':
 			assert(optarg);
-			if (sscanf(optarg, "%llu", &vRefSpeed) != 1) {
+			if (sscanf(optarg, "%u", &vRefSpeed) != 1) {
 				printf("Option --mhz= requires an integer parameter.\n");
 				exit(1);
 			}
-			vRefSpeed *= 1000;
 			break;
 		case 'v':
 			version();
