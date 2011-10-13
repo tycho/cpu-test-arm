@@ -204,8 +204,8 @@ int main(int argc, char **argv)
 		run_test(test1ix,   NULL, "test 1 int xor  ", LOOPS, INSTR);
 		run_test(test1m,    NULL, "test 1 mem load ", LOOPS, INSTR);
 		run_test(test1m2,   NULL, "test 1 mem indir", LOOPS, INSTR);
-		run_test(test1pp,   NULL, "test 1 cond pred", LOOPS, INSTR);
-		run_test(test1pb,   NULL, "test 1 cond bran", LOOPS, INSTR);
+		run_test(test1pp,   NULL, "test 1 cond pred", LOOPS, INSTR / 2);
+		run_test(test1pb,   NULL, "test 1 cond bran", LOOPS, INSTR / 2);
 
 		printf("\nTests executing pairs of mutually exclusive instructions.\n"
 			   "You should ideally get double the MIPS.\n\n");
