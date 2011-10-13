@@ -1,5 +1,6 @@
 #include "prefix.h"
 #include "cpu-arm.h"
+#include "kernel.h"
 #include "util.h"
 #include "version.h"
 
@@ -14,61 +15,80 @@
 #define INSTR 32
 
 uint64_t vRefSpeed;
-uint32_t vfClocksOnly;
+int32_t vfSimpleTests;
+int32_t vfKernelTests;
+int32_t vfClocksOnly;
 uint32_t volatile vt1;
 
 /* in microseconds */
 static uint32_t get_overhead(void)
 {
-	uint32_t t1, t2, res;
+	uint32_t i, res, t1, t2, d, min = (uint32_t)-1;
 
 	res = tm_resolution();
 
-	testnull();
-	vt1 = tm_ticks();
-	do
-	{
-		t1 = tm_ticks();
-	} while ((t1 - vt1) < res);
-	vt1 = t1;
-	testnull();
-	testnull();
-	testnull();
-	t2 = tm_ticks();
-	t1 = vt1;
+	for (i = 0; i < 100; i++) {
+		vt1 = tm_ticks();
+		do
+		{
+			t1 = tm_ticks();
+		} while ((t1 - vt1) < res);
+		vt1 = t1;
+		testnull();
+		t2 = tm_ticks();
+		d = t2 - t1;
+		if (min > d)
+			min = d;
+	}
 
-	return (t2 - t1) / 3;
+	return min;
 }
 
-static void run_test(void (*pfn)(void), char *title, uint32_t loops, uint32_t instr)
+static void run_test(void (*btest)(void), uint32_t (*ttest)(void), char *title, uint32_t loops, uint32_t instr)
 {
 	static uint32_t overhead = 0;
-	uint32_t t1, t2, td, res;
-	uint64_t ipms;
+	uint32_t i, t1, t2, td, min = (uint32_t)-1, res;
+	uint32_t ips;
 	uint32_t tinst = instr * loops;
 	float ipc, clk;
 
 	usleep(1000);
 #if 1
-	if (!overhead)
+	if (!overhead) {
+		printf("calculating test overhead... ");
+		fflush(stdout);
 		overhead = get_overhead();
+		printf("%u usec\n", overhead);
+	}
 #endif
-	res = tm_resolution();
+	for (i = 0; i < 3; i++) {
+		if (btest) {
+			res = tm_resolution();
 
-	vt1 = tm_ticks();
-	do
-	{
-		t1 = tm_ticks();
-	} while ((t1 - vt1) < res);
-	vt1 = t1;
-	(*pfn)();
-	t2 = tm_ticks();
-	t1 = vt1;
+			vt1 = tm_ticks();
+			do
+			{
+				t1 = tm_ticks();
+			} while ((t1 - vt1) < res);
+			vt1 = t1;
+			(*btest)();
+			t2 = tm_ticks();
+			t1 = vt1;
 
-	if (t2 == t1)
-		t2++;
+			if (t2 == t1)
+				t2++;
 
-	td = (t2 - t1 - overhead) / 1000L;
+			td = (t2 - t1 - overhead) / 1000L;
+		} else if (ttest) {
+			td = (*ttest)() / 1000L;
+		} else {
+			abort();
+		}
+		if (min > td)
+			min = td;
+	}
+	td = min;
+
 	if (td < 1)
 		td = 1;
 
@@ -85,17 +105,17 @@ static void run_test(void (*pfn)(void), char *title, uint32_t loops, uint32_t in
 		printf("%6lu MIPS, ", tinst / td / 1000L);
 	}
 
-	ipms = tinst / td;
+	ips = tinst / td;
 
 	if (vRefSpeed == 0)
-		vRefSpeed = ipms;
+		vRefSpeed = ips;
 
-	ipc = (float)ipms / (float)vRefSpeed;
-	clk = (float)vRefSpeed / (float)ipms;
+	ipc = (float)ips / (float)vRefSpeed;
+	clk = (float)vRefSpeed / (float)ips;
 
 	/* If we're pushing enough instructions through per
 	   clock cycle, print IPC instead of clocks. */
-	if (!vfClocksOnly && ipc >= 1.06f)
+	if (!vfClocksOnly && ipc >= 1.1f)
 		printf("%1.1f IPC", ipc);
 	else
 		printf("%1.1f clk", clk);
@@ -108,6 +128,9 @@ static void usage(const char *argv0)
 {
     printf("usage: %s\n\n", argv0);
     printf("  %-18s %s\n", "-m, --mhz", "Manually define the clock speed of the test target");
+    printf("  %-18s %s\n", "--none", "Disable all tests. Append other arguments to enable test groups individually.");
+    printf("  %-18s %s\n", "--simple", "Enable the simple instruction tests");
+    printf("  %-18s %s\n", "--kernel", "Enable the kernel-level tests");
     printf("  %-18s %s\n", "-h, --help", "Print this list of options");
     printf("  %-18s %s\n", "-v, --version", "Print the program license and version information");
     printf("\n");
@@ -125,9 +148,16 @@ int main(int argc, char **argv)
 {
 	vRefSpeed = 0;
 
+	vfClocksOnly = 0;
+	vfSimpleTests = 1;
+	vfKernelTests = 0;
+
 	while (TRUE) {
 		static struct option long_options[] = {
 			{"mhz", required_argument, 0, 'm'},
+			{"none", no_argument, 0, 2},
+			{"simple", no_argument, &vfSimpleTests, 1},
+			{"kernel", no_argument, &vfKernelTests, 1},
 			{"version", no_argument, 0, 'v'},
 			{"help", no_argument, 0, 'h'},
 			{0, 0, 0, 0}
@@ -139,6 +169,10 @@ int main(int argc, char **argv)
 			break;
 		switch (c) {
 		case 0:
+			break;
+		case 2:
+			vfSimpleTests = 0;
+			vfKernelTests = 0;
 			break;
 		case 'm':
 			assert(optarg);
@@ -158,32 +192,40 @@ int main(int argc, char **argv)
 	}
 
 	if (vRefSpeed == 0)
-		run_test(test1i,  "calibrating     ", LOOPS, INSTR);
+		run_test(test1i, NULL,  "calibrating     ", LOOPS, INSTR);
 
-	printf("\nSimple tests of integer and memory operations.\n"
-	       "Ideally, MIPS should equal the clock speed of your CPU.\n\n");
+	if (vfSimpleTests) {
+		printf("\nSimple tests of integer and memory operations.\n"
+			   "Ideally, MIPS should equal the clock speed of your CPU.\n\n");
 
-	run_test(test1i,  "test 1 int add  ", LOOPS, INSTR);
-	run_test(test1if, "test 1 int adc  ", LOOPS, INSTR);
-	run_test(test1ix, "test 1 int xor  ", LOOPS, INSTR);
-	run_test(test1m,  "test 1 mem load ", LOOPS, INSTR);
-	run_test(test1m2, "test 1 mem indir", LOOPS, INSTR);
-	run_test(test1pp, "test 1 cond pred", LOOPS, INSTR);
-	run_test(test1pb, "test 1 cond bran", LOOPS, INSTR);
+		run_test(test1i,    NULL, "test 1 int add  ", LOOPS, INSTR);
+		run_test(test1if,   NULL, "test 1 int adc  ", LOOPS, INSTR);
+		run_test(test1ix,   NULL, "test 1 int xor  ", LOOPS, INSTR);
+		run_test(test1m,    NULL, "test 1 mem load ", LOOPS, INSTR);
+		run_test(test1m2,   NULL, "test 1 mem indir", LOOPS, INSTR);
+		run_test(test1pp,   NULL, "test 1 cond pred", LOOPS, INSTR);
+		run_test(test1pb,   NULL, "test 1 cond bran", LOOPS, INSTR);
 
-	printf("\nTests executing pairs of mutually exclusive instructions.\n"
-		   "You should ideally get double the MIPS.\n\n");
+		printf("\nTests executing pairs of mutually exclusive instructions.\n"
+			   "You should ideally get double the MIPS.\n\n");
 
-	run_test(test2i,  "test 2 int add  ", LOOPS, INSTR);
-	run_test(test2if, "test 2 int adc++", LOOPS, INSTR);
-	run_test(test2ix, "test 2 int xor++", LOOPS, INSTR);
-	run_test(test2m,  "test 2 mem load ", LOOPS, INSTR);
+		run_test(test2i,    NULL, "test 2 int add  ", LOOPS, INSTR);
+		run_test(test2if,   NULL, "test 2 int adc++", LOOPS, INSTR);
+		run_test(test2ix,   NULL, "test 2 int xor++", LOOPS, INSTR);
+		run_test(test2m,    NULL, "test 2 mem load ", LOOPS, INSTR);
 
-	printf("\nTriples of mutually exclusive instructions should \n"
-		   "ideally give triple the MIPS.\n\n");
+		printf("\nTriples of mutually exclusive instructions should \n"
+			   "ideally give triple the MIPS.\n\n");
 
-	run_test(test3i,  "test 3 int add  ", LOOPS, INSTR);
-	run_test(test3m,  "test 3 mem load ", LOOPS, INSTR);
-	run_test(test4i,  "test 4 int add  ", LOOPS, INSTR);
+		run_test(test3i,    NULL, "test 3 int add  ", LOOPS, INSTR);
+		run_test(test3m,    NULL, "test 3 mem load ", LOOPS, INSTR);
+		run_test(test4i,    NULL, "test 4 int add  ", LOOPS, INSTR);
+	}
+
+	if (vfKernelTests) {
+		printf("\nThese tests perform various kernel calls.\n\n");
+
+		run_test(NULL, test3pflt, "test 3 os pg flt", 32768, 1);
+	}
 	return 0;
 }
