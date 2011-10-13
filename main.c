@@ -53,7 +53,7 @@ static void run_test(void (*btest)(void), uint32_t (*ttest)(void), char *title, 
 	float ipc, clk;
 
 	usleep(1000);
-#if 1
+#if 0
 	if (!overhead) {
 		printf("calculating test overhead... ");
 		fflush(stdout);
