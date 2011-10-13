@@ -128,6 +128,7 @@ static void usage(const char *argv0)
 {
     printf("usage: %s\n\n", argv0);
     printf("  %-18s %s\n", "-m, --mhz", "Manually define the clock speed of the test target");
+    printf("  %-18s %s\n", "--clk", "Disable IPC measurement, only measure in clock cycles");
     printf("  %-18s %s\n", "--none", "Disable all tests. Append other arguments to enable test groups individually.");
     printf("  %-18s %s\n", "--simple", "Enable the simple instruction tests");
     printf("  %-18s %s\n", "--kernel", "Enable the kernel-level tests");
@@ -155,6 +156,7 @@ int main(int argc, char **argv)
 	while (TRUE) {
 		static struct option long_options[] = {
 			{"mhz", required_argument, 0, 'm'},
+			{"clk", no_argument, &vfClocksOnly, 1},
 			{"none", no_argument, 0, 2},
 			{"simple", no_argument, &vfSimpleTests, 1},
 			{"kernel", no_argument, &vfKernelTests, 1},
