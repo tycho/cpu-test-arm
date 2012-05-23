@@ -1,14 +1,9 @@
 #include "asmcommon.h"
 .syntax unified
 
-/* 6000000 */
-#define LOOP_LOW #36225
-#define LOOP_HIGH #91
-
 ENTRY(testnull)
 	push {r0-r8}
-	movw r4, LOOP_LOW
-	movt r4, LOOP_HIGH
+	ldr r4, .LOOPS
 .Lnull:
 	.rept 32
 	.endr
@@ -20,8 +15,7 @@ END(testnull)
 
 ENTRY(test1i)
 	push {r0-r8}
-	movw r4, LOOP_LOW
-	movt r4, LOOP_HIGH
+	ldr r4, .LOOPS
 .L1i:
 	.rept 16
 	add r0, r1
@@ -35,8 +29,7 @@ END(test1i)
 
 ENTRY(test1if)
 	push {r0-r8}
-	movw r4, LOOP_LOW
-	movt r4, LOOP_HIGH
+	ldr r4, .LOOPS
 .L1if:
 	.rept 16
 	adc r0, r1
@@ -50,8 +43,7 @@ END(test1if)
 
 ENTRY(test1ix)
 	push {r0-r8}
-	movw r4, LOOP_LOW
-	movt r4, LOOP_HIGH
+	ldr r4, .LOOPS
 .L1ix:
 	.rept 16
 	eor r0, r1
@@ -65,8 +57,7 @@ END(test1ix)
 
 ENTRY(test1m)
 	push {r0-r8}
-	movw r4, LOOP_LOW
-	movt r4, LOOP_HIGH
+	ldr r4, .LOOPS
 .L1m:
 	.rept 16
 	ldr   r1, [sp]
@@ -80,8 +71,7 @@ END(test1m)
 
 ENTRY(test1m2)
 	push {r0-r8}
-	movw r4, LOOP_LOW
-	movt r4, LOOP_HIGH
+	ldr r4, .LOOPS
 	ldr r2, .L1m2d
 	ldr r3, .L1m2d+4
 	str r3, [r2, #0]
@@ -101,8 +91,7 @@ END(test1m2)
 
 ENTRY(test1pp)
 	push {r0-r8}
-	movw r4, LOOP_LOW
-	movt r4, LOOP_HIGH
+	ldr r4, .LOOPS
 .L1pp:
 	ands r0, r4, #5
 	.rept 8
@@ -127,8 +116,7 @@ END(test1pp)
 
 ENTRY(test1pb)
 	push {r0-r8}
-	movw r4, LOOP_LOW
-	movt r4, LOOP_HIGH
+	ldr r4, .LOOPS
 .L1pb:
 	ands r0, r4, #5
 	.irp lbln 1,2,3,4,5,6,7,8
@@ -147,8 +135,7 @@ END(test1pb)
 
 ENTRY(test2i)
 	push {r0-r8}
-	movw r4, LOOP_LOW
-	movt r4, LOOP_HIGH
+	ldr r4, .LOOPS
 .L2i:
 	.rept 16
 	add r0, r2
@@ -162,8 +149,7 @@ END(test2i)
 
 ENTRY(test2if)
 	push {r0-r8}
-	movw r4, LOOP_LOW
-	movt r4, LOOP_HIGH
+	ldr r4, .LOOPS
 .L2if:
 	.rept 16
 	adc r0, r2
@@ -177,8 +163,7 @@ END(test2if)
 
 ENTRY(test2ix)
 	push {r0-r8}
-	movw r4, LOOP_LOW
-	movt r4, LOOP_HIGH
+	ldr r4, .LOOPS
 .L2ix:
 	.rept 16
 	eor r0, r1
@@ -192,8 +177,7 @@ END(test2ix)
 
 ENTRY(test2m)
 	push {r0-r8}
-	movw r4, LOOP_LOW
-	movt r4, LOOP_HIGH
+	ldr r4, .LOOPS
 .L2m:
 	.rept 16
 	ldr   r1, [sp]
@@ -207,8 +191,7 @@ END(test2m)
 
 ENTRY(test3i)
 	push {r0-r8}
-	movw r4, LOOP_LOW
-	movt r4, LOOP_HIGH
+	ldr r4, .LOOPS
 .L3i:
 	.rept 10
 	add r0, r3
@@ -225,8 +208,7 @@ END(test3i)
 
 ENTRY(test3m)
 	push {r0-r8}
-	movw r4, LOOP_LOW
-	movt r4, LOOP_HIGH
+	ldr r4, .LOOPS
 .L3m:
 	.rept 10
 	ldr   r1, [sp]
@@ -243,8 +225,7 @@ END(test3m)
 
 ENTRY(test4i)
 	push {r0-r8}
-	movw r4, LOOP_LOW
-	movt r4, LOOP_HIGH
+	ldr r4, .LOOPS
 .L4i:
 	.rept 8
 	add r0, r5
@@ -260,3 +241,6 @@ END(test4i)
 
 	.comm   p2,4,4
 	.comm   p1,4,4
+
+.LOOPS:
+	.word 6000000
