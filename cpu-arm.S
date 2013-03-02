@@ -331,6 +331,48 @@ ENTRY(test5m1)
 	DO_RET(lr)
 END(test5m1)
 
+ENTRY(test5l1)
+	push {r0-r8}
+	ldr r4, .LOOPS
+.L5l1:
+	mov  r0, #0
+	mov  r0, #1
+	mov  r0, #2
+	mov  r0, #3
+	mov  r0, #4
+	mov  r0, #5
+	mov  r0, #6
+	mov  r0, #7
+	mov  r0, #8
+	mov  r0, #9
+	mov  r0, #10
+	mov  r0, #11
+	mov  r0, #12
+	mov  r0, #13
+	mov  r0, #14
+	mov  r0, #15
+	mov  r0, #16
+	mov  r0, #17
+	mov  r0, #18
+	mov  r0, #19
+	mov  r0, #20
+	mov  r0, #21
+	mov  r0, #22
+	mov  r0, #23
+	mov  r0, #24
+	mov  r0, #25
+	mov  r0, #26
+	mov  r0, #27
+	mov  r0, #28
+	mov  r0, #29
+	mov  r0, #30
+	mov  r0, #31
+	subs r4, #1
+	bne .L5l1
+	pop {r0-r8}
+	DO_RET(lr)
+END(test5l1)
+
 	.comm   p2,4,4
 	.comm   p1,4,4
 
