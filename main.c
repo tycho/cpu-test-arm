@@ -222,6 +222,10 @@ int main(int argc, char **argv)
 		run_test(test3i,    NULL, "test 3 int add  ", LOOPS, INSTR);
 		run_test(test3m,    NULL, "test 3 mem load ", LOOPS, INSTR);
 		run_test(test4i,    NULL, "test 4 int add  ", LOOPS, INSTR);
+
+		printf("\nThese are tests of simple integer operations.\n\n");
+
+		run_test(test5z,    NULL, "test 5 zero mem ", LOOPS, INSTR);
 	}
 
 	if (vfKernelTests) {
