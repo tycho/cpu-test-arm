@@ -226,6 +226,7 @@ int main(int argc, char **argv)
 		printf("\nThese are tests of simple integer operations.\n\n");
 
 		run_test(test5z,    NULL, "test 5 zero mem ", LOOPS, INSTR);
+		run_test(test5m1,   NULL, "test 5 -1 to mem", LOOPS, INSTR);
 	}
 
 	if (vfKernelTests) {

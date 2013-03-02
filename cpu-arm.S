@@ -285,6 +285,52 @@ ENTRY(test5z)
 	DO_RET(lr)
 END(test5z)
 
+ENTRY(test5m1)
+	push {r0-r8}
+	sub sp, #80
+	ldr r4, .LOOPS
+.L5m1:
+	mvn r6, #0
+	mvn r7, #0
+	str  r6, [sp]
+	str  r6, [sp, #4]
+	str  r6, [sp, #8]
+	str  r6, [sp, #12]
+	strh r6, [sp, #16]
+	strh r6, [sp, #18]
+	strh r6, [sp, #20]
+	strh r6, [sp, #22]
+	strh r6, [sp, #24]
+	strh r6, [sp, #26]
+	strb r6, [sp, #28]
+	strb r6, [sp, #29]
+	strb r6, [sp, #30]
+	strb r6, [sp, #31]
+	str  r6, [sp, #32]
+	str  r6, [sp, #36]
+	str  r6, [sp, #40]
+	str  r6, [sp, #44]
+	strh r6, [sp, #48]
+	strh r6, [sp, #50]
+	strh r6, [sp, #52]
+	strh r6, [sp, #54]
+	strh r6, [sp, #56]
+	strh r6, [sp, #58]
+	strb r6, [sp, #60]
+	strb r6, [sp, #61]
+	strb r6, [sp, #62]
+	strb r6, [sp, #63]
+	str  r6, [sp, #64]
+	str  r6, [sp, #68]
+	str  r6, [sp, #72]
+	str  r6, [sp, #76]
+	subs r4, #1
+	bne .L5m1
+	add sp, 80
+	pop {r0-r8}
+	DO_RET(lr)
+END(test5m1)
+
 	.comm   p2,4,4
 	.comm   p1,4,4
 

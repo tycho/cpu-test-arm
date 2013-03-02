@@ -17,5 +17,6 @@ void test3i(void);
 void test3m(void);
 void test4i(void);
 void test5z(void);
+void test5m1(void);
 
 #endif
