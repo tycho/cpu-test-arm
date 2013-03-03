@@ -230,6 +230,7 @@ int main(int argc, char **argv)
 		run_test(test5l1,   NULL, "test 5 load 1   ", LOOPS, INSTR);
 
 		run_test(test6zi,   NULL, "test 6 and0 mimm", LOOPS, INSTR);
+		run_test(test6zr,   NULL, "test 6 and0 mreg", LOOPS, INSTR);
 	}
 
 	if (vfKernelTests) {

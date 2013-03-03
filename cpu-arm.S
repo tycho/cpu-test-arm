@@ -411,6 +411,45 @@ ENTRY(test6zi)
 	DO_RET(lr)
 END(test6zi)
 
+ENTRY(test6zr)
+	push {r0-r8}
+	sub sp, #32
+	ldr r4, .LOOPS
+.L6zr:
+	.rept 4
+	mov r9, #0
+	ldr r0, [sp]
+	and r0, r9
+	str r0, [sp]
+	ldr r1, [sp, #4]
+	and r1, r9
+	str r1, [sp, #4]
+	ldr r2, [sp, #8]
+	and r2, r9
+	str r2, [sp, #8]
+	ldr r3, [sp, #12]
+	and r3, r9
+	str r3, [sp, #12]
+	ldr r5, [sp, #16]
+	and r5, r9
+	str r5, [sp, #16]
+	ldr r6, [sp, #20]
+	and r6, r9
+	str r6, [sp, #20]
+	ldr r7, [sp, #24]
+	and r7, r9
+	str r7, [sp, #24]
+	ldr r8, [sp, #28]
+	and r8, r9
+	str r8, [sp, #28]
+	subs r4, #1
+	.endr
+	bne .L6zr
+	add sp, 32
+	pop {r0-r8}
+	DO_RET(lr)
+END(test6zr)
+
 	.comm   p2,4,4
 	.comm   p1,4,4
 
