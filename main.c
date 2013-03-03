@@ -228,6 +228,8 @@ int main(int argc, char **argv)
 		run_test(test5z,    NULL, "test 5 zero mem ", LOOPS, INSTR);
 		run_test(test5m1,   NULL, "test 5 -1 to mem", LOOPS, INSTR);
 		run_test(test5l1,   NULL, "test 5 load 1   ", LOOPS, INSTR);
+
+		run_test(test6zi,   NULL, "test 6 and0 mimm", LOOPS, INSTR);
 	}
 
 	if (vfKernelTests) {
