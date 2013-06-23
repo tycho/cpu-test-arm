@@ -370,5 +370,40 @@ TEST_ENTRY(test6zr)
 	add sp, 32
 TEST_END(test6zr)
 
+TEST_ENTRY(test6m1)
+	sub sp, #32
+.L6m1:
+	.rept 4
+	mvn r9, #0
+	ldr r0, [sp]
+	orr r0, r9
+	str r0, [sp]
+	ldr r1, [sp, #4]
+	orr r1, r9
+	str r1, [sp, #4]
+	ldr r2, [sp, #8]
+	orr r2, r9
+	str r2, [sp, #8]
+	ldr r3, [sp, #12]
+	orr r3, r9
+	str r3, [sp, #12]
+	ldr r5, [sp, #16]
+	orr r5, r9
+	str r5, [sp, #16]
+	ldr r6, [sp, #20]
+	orr r6, r9
+	str r6, [sp, #20]
+	ldr r7, [sp, #24]
+	orr r7, r9
+	str r7, [sp, #24]
+	ldr r8, [sp, #28]
+	orr r8, r9
+	str r8, [sp, #28]
+	.endr
+	subs r4, #1
+	bne .L6m1
+	add sp, 32
+TEST_END(test6m1)
+
 	.comm   p2,4,4
 	.comm   p1,4,4
