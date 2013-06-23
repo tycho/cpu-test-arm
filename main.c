@@ -11,8 +11,8 @@
 #include <time.h>
 #include <unistd.h>
 
-#define LOOPS 6000000
-#define INSTR 32
+const uint32_t LOOPS = 6000000;
+const uint32_t INSTR = 32;
 
 uint32_t vRefSpeed;
 int32_t vfSimpleTests;

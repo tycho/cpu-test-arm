@@ -1,21 +1,15 @@
 #include "asmcommon.h"
 .syntax unified
 
-ENTRY(testnull)
-	push {r0-r8}
-	ldr r4, .LOOPS
+TEST_ENTRY(testnull)
 .Lnull:
 	.rept 32
 	.endr
 	subs r4, #1
 	bne .Lnull
-	pop {r0-r8}
-	DO_RET(lr)
-END(testnull)
+TEST_END(testnull)
 
-ENTRY(test1i)
-	push {r0-r8}
-	ldr r4, .LOOPS
+TEST_ENTRY(test1i)
 .L1i:
 	.rept 16
 	add r0, r1
@@ -23,13 +17,9 @@ ENTRY(test1i)
 	.endr
 	subs r4, #1
 	bne .L1i
-	pop {r0-r8}
-	DO_RET(lr)
-END(test1i)
+TEST_END(test1i)
 
-ENTRY(test1if)
-	push {r0-r8}
-	ldr r4, .LOOPS
+TEST_ENTRY(test1if)
 .L1if:
 	.rept 16
 	adc r0, r1
@@ -37,13 +27,9 @@ ENTRY(test1if)
 	.endr
 	subs r4, #1
 	bne .L1if
-	pop {r0-r8}
-	DO_RET(lr)
-END(test1if)
+TEST_END(test1if)
 
-ENTRY(test1ix)
-	push {r0-r8}
-	ldr r4, .LOOPS
+TEST_ENTRY(test1ix)
 .L1ix:
 	.rept 16
 	eor r0, r1
@@ -51,13 +37,9 @@ ENTRY(test1ix)
 	.endr
 	subs r4, #1
 	bne .L1ix
-	pop {r0-r8}
-	DO_RET(lr)
-END(test1ix)
+TEST_END(test1ix)
 
-ENTRY(test1m)
-	push {r0-r8}
-	ldr r4, .LOOPS
+TEST_ENTRY(test1m)
 .L1m:
 	.rept 16
 	ldr   r1, [sp]
@@ -65,13 +47,12 @@ ENTRY(test1m)
 	.endr
 	subs r4, #1
 	bne .L1m
-	pop {r0-r8}
-	DO_RET(lr)
-END(test1m)
+TEST_END(test1m)
 
-ENTRY(test1m2)
-	push {r0-r8}
-	ldr r4, .LOOPS
+.L1m2d:
+	.word p1
+	.word p2
+TEST_ENTRY(test1m2)
 	ldr r2, .L1m2d
 	ldr r3, .L1m2d+4
 	str r3, [r2, #0]
@@ -82,16 +63,9 @@ ENTRY(test1m2)
 	.endr
 	subs r4, #1
 	bne .L1m2
-	pop {r0-r8}
-	DO_RET(lr)
-.L1m2d:
-	.word p1
-	.word p2
-END(test1m2)
+TEST_END(test1m2)
 
-ENTRY(test1pp)
-	push {r0-r8}
-	ldr r4, .LOOPS
+TEST_ENTRY(test1pp)
 .L1pp:
 	ands r0, r4, #5
 	.rept 8
@@ -110,13 +84,9 @@ ENTRY(test1pp)
 	.endr
 	subs r4, #1
 	bne .L1pp
-	pop {r0-r8}
-	DO_RET(lr)
-END(test1pp)
+TEST_END(test1pp)
 
-ENTRY(test1pb)
-	push {r0-r8}
-	ldr r4, .LOOPS
+TEST_ENTRY(test1pb)
 .L1pb:
 	ands r0, r4, #5
 	.irp lbln 1,2,3,4,5,6,7,8
@@ -129,13 +99,9 @@ ENTRY(test1pb)
 	.endr
 	subs r4, #1
 	bne .L1pb
-	pop {r0-r8}
-	DO_RET(lr)
-END(test1pb)
+TEST_END(test1pb)
 
-ENTRY(test2i)
-	push {r0-r8}
-	ldr r4, .LOOPS
+TEST_ENTRY(test2i)
 .L2i:
 	.rept 16
 	add r0, r2
@@ -143,13 +109,9 @@ ENTRY(test2i)
 	.endr
 	subs r4, #1
 	bne .L2i
-	pop {r0-r8}
-	DO_RET(lr)
-END(test2i)
+TEST_END(test2i)
 
-ENTRY(test2if)
-	push {r0-r8}
-	ldr r4, .LOOPS
+TEST_ENTRY(test2if)
 .L2if:
 	.rept 16
 	adc r0, r2
@@ -157,13 +119,9 @@ ENTRY(test2if)
 	.endr
 	subs r4, #1
 	bne .L2if
-	pop {r0-r8}
-	DO_RET(lr)
-END(test2if)
+TEST_END(test2if)
 
-ENTRY(test2ix)
-	push {r0-r8}
-	ldr r4, .LOOPS
+TEST_ENTRY(test2ix)
 .L2ix:
 	.rept 16
 	eor r0, r1
@@ -171,13 +129,9 @@ ENTRY(test2ix)
 	.endr
 	subs r4, #1
 	bne .L2ix
-	pop {r0-r8}
-	DO_RET(lr)
-END(test2ix)
+TEST_END(test2ix)
 
-ENTRY(test2m)
-	push {r0-r8}
-	ldr r4, .LOOPS
+TEST_ENTRY(test2m)
 .L2m:
 	.rept 16
 	ldr   r1, [sp]
@@ -185,13 +139,9 @@ ENTRY(test2m)
 	.endr
 	subs r4, #1
 	bne .L2m
-	pop {r0-r8}
-	DO_RET(lr)
-END(test2m)
+TEST_END(test2m)
 
-ENTRY(test3i)
-	push {r0-r8}
-	ldr r4, .LOOPS
+TEST_ENTRY(test3i)
 .L3i:
 	.rept 10
 	add r0, r3
@@ -202,13 +152,9 @@ ENTRY(test3i)
 	add r1, r4
 	subs r4, #1
 	bne .L3i
-	pop {r0-r8}
-	DO_RET(lr)
-END(test3i)
+TEST_END(test3i)
 
-ENTRY(test3m)
-	push {r0-r8}
-	ldr r4, .LOOPS
+TEST_ENTRY(test3m)
 .L3m:
 	.rept 10
 	ldr   r1, [sp]
@@ -219,13 +165,9 @@ ENTRY(test3m)
 	ldr   r2, [sp, #64]
 	subs r4, #1
 	bne .L3m
-	pop {r0-r8}
-	DO_RET(lr)
-END(test3m)
+TEST_END(test3m)
 
-ENTRY(test4i)
-	push {r0-r8}
-	ldr r4, .LOOPS
+TEST_ENTRY(test4i)
 .L4i:
 	.rept 8
 	add r0, r5
@@ -235,14 +177,10 @@ ENTRY(test4i)
 	.endr
 	subs r4, #1
 	bne .L4i
-	pop {r0-r8}
-	DO_RET(lr)
-END(test4i)
+TEST_END(test4i)
 
-ENTRY(test5z)
-	push {r0-r8}
+TEST_ENTRY(test5z)
 	sub sp, #80
-	ldr r4, .LOOPS
 .L5z:
 	mov r6, #0
 	mov r7, #0
@@ -281,14 +219,10 @@ ENTRY(test5z)
 	subs r4, #1
 	bne .L5z
 	add sp, 80
-	pop {r0-r8}
-	DO_RET(lr)
-END(test5z)
+TEST_END(test5z)
 
-ENTRY(test5m1)
-	push {r0-r8}
+TEST_ENTRY(test5m1)
 	sub sp, #80
-	ldr r4, .LOOPS
 .L5m1:
 	mvn r6, #0
 	mvn r7, #0
@@ -327,13 +261,9 @@ ENTRY(test5m1)
 	subs r4, #1
 	bne .L5m1
 	add sp, 80
-	pop {r0-r8}
-	DO_RET(lr)
-END(test5m1)
+TEST_END(test5m1)
 
-ENTRY(test5l1)
-	push {r0-r8}
-	ldr r4, .LOOPS
+TEST_ENTRY(test5l1)
 .L5l1:
 	mov  r0, #0
 	mov  r0, #1
@@ -369,14 +299,10 @@ ENTRY(test5l1)
 	mov  r0, #31
 	subs r4, #1
 	bne .L5l1
-	pop {r0-r8}
-	DO_RET(lr)
-END(test5l1)
+TEST_END(test5l1)
 
-ENTRY(test6zi)
-	push {r0-r8}
+TEST_ENTRY(test6zi)
 	sub sp, #32
-	ldr r4, .LOOPS
 .L6zi:
 	.rept 4
 	ldr r0, [sp]
@@ -407,14 +333,10 @@ ENTRY(test6zi)
 	subs r4, #1
 	bne .L6zi
 	add sp, 32
-	pop {r0-r8}
-	DO_RET(lr)
-END(test6zi)
+TEST_END(test6zi)
 
-ENTRY(test6zr)
-	push {r0-r8}
+TEST_ENTRY(test6zr)
 	sub sp, #32
-	ldr r4, .LOOPS
 .L6zr:
 	.rept 4
 	mov r9, #0
@@ -446,12 +368,7 @@ ENTRY(test6zr)
 	.endr
 	bne .L6zr
 	add sp, 32
-	pop {r0-r8}
-	DO_RET(lr)
-END(test6zr)
+TEST_END(test6zr)
 
 	.comm   p2,4,4
 	.comm   p1,4,4
-
-.LOOPS:
-	.word 6000000

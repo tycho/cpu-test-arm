@@ -108,9 +108,22 @@
   C_LABEL(name)                                               \
   CALL_MCOUNT
 
+#define TEST_ENTRY(name) \
+  .LOOPS##name: \
+    .word LOOPS; \
+  ENTRY(name); \
+  push {r0-r8}; \
+  ldr r3, .LOOPS##name; \
+  ldr r4, [r3, #0];
+
 #undef	END
 #define END(name)							      \
   ASM_SIZE_DIRECTIVE(name)
+
+#define TEST_END(name) \
+  pop {r0-r8}; \
+  DO_RET(lr); \
+  END(name)
 
 /* If compiled for profiling, call `mcount' at the start of each function.  */
 #ifdef	PROF
