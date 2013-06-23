@@ -22,5 +22,6 @@ void test5l1(void);
 void test6zi(void);
 void test6zr(void);
 void test6m1(void);
+void test6l1(void);
 
 #endif

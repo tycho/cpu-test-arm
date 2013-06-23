@@ -405,5 +405,29 @@ TEST_ENTRY(test6m1)
 	add sp, 32
 TEST_END(test6m1)
 
+TEST_ENTRY(test6l1)
+.L6l1:
+	.rept 4
+	push {r0}
+	pop {r8}
+	push {r1}
+	pop {r7}
+	push {r2}
+	pop {r6}
+	push {r3}
+	pop {r5}
+	push {r5}
+	pop {r3}
+	push {r6}
+	pop {r2}
+	push {r7}
+	pop {r1}
+	push {r8}
+	pop {r0}
+	.endr
+	subs r4, #1
+	bne .L6l1
+TEST_END(test6l1)
+
 	.comm   p2,4,4
 	.comm   p1,4,4
