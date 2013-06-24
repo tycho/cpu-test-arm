@@ -465,5 +465,17 @@ TEST_ENTRY(test10fpq)
 	bne .L10fpq
 TEST_END(test10fpq)
 
+TEST_ENTRY(test11fls)
+	sub sp, #8
+.L11fls:
+	.rept 32
+	vstr s0, [sp, #4]
+	vldr s0, [sp, #4]
+	.endr
+	subs r4, #1
+	bne .L11fls
+	add sp, 8
+TEST_END(test11fls)
+
 	.comm   p2,4,4
 	.comm   p1,4,4
