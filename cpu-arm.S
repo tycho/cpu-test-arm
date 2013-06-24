@@ -477,5 +477,17 @@ TEST_ENTRY(test11fls)
 	add sp, 8
 TEST_END(test11fls)
 
+TEST_ENTRY(test12fi1)
+.L12fi1:
+	mov r0, 1
+	vmov s14, r0
+	vcvt.f32.s32 s0, s14
+	.rept 32
+	vadd.f32 s0, s0, s14
+	.endr
+	subs r4, #1
+	bne .L12fi1
+TEST_END(test12fi1)
+
 	.comm   p2,4,4
 	.comm   p1,4,4

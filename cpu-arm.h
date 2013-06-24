@@ -27,5 +27,6 @@ void test8mul(void);
 void test9fpm(void);
 void test10fpq(void);
 void test11fls(void);
+void test12fi1(void);
 
 #endif

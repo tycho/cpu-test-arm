@@ -240,6 +240,7 @@ int main(int argc, char **argv)
 		run_test(test9fpm,   NULL, "test 9 FP mult  ", LOOPS, INSTR);
 		run_test(test10fpq,  NULL, "test 10 FP sqrt ", LOOPS, INSTR);
 		run_test(test11fls,  NULL, "test 11 FP ld/st", LOOPS, INSTR);
+		run_test(test12fi1,  NULL, "test 12 FP inc 1", LOOPS, INSTR);
 	}
 
 	if (vfKernelTests) {
