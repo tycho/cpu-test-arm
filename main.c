@@ -237,6 +237,7 @@ int main(int argc, char **argv)
 		/* test7 = unsigned integer divide -- unavailable on ARMv7-A */
 
 		run_test(test8mul,   NULL, "test 8 multiply ", LOOPS, INSTR);
+		run_test(test9fpm,   NULL, "test 9 FP mult  ", LOOPS, INSTR);
 	}
 
 	if (vfKernelTests) {

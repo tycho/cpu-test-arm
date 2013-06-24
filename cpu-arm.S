@@ -439,5 +439,19 @@ TEST_ENTRY(test8mul)
 	bne .L8mul
 TEST_END(test8mul)
 
+TEST_ENTRY(test9fpm)
+.L9fpm:
+	sub r0, r4, 1
+	vmov s14, r0
+	vcvt.f32.s32 s0, s14
+	vmov s14, r4
+	vcvt.f32.s32 s1, s14
+	.rept 32
+	vmul.f32 s0, s0, s1
+	.endr
+	subs r4, #1
+	bne .L9fpm
+TEST_END(test9fpm)
+
 	.comm   p2,4,4
 	.comm   p1,4,4
