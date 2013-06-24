@@ -5,6 +5,7 @@
 #include "version.h"
 
 #include <getopt.h>
+#include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -52,7 +53,7 @@ static void run_test(void (*btest)(void), uint32_t (*ttest)(void), char *title, 
 	uint32_t tinst = instr * loops;
 	float ipc, clk;
 
-	usleep(1000);
+	pthread_yield();
 #if 0
 	if (!overhead) {
 		printf("calculating test overhead... ");

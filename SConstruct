@@ -119,6 +119,10 @@ for env in [arm, thumb]:
 	# Basic CFLAGS for correctness
 	env.Append(CFLAGS='-std=gnu89 -fno-strict-aliasing')
 
+	# Enable pthreads
+	env.Append(CFLAGS='-pthread')
+	env.Append(LIBS=['-lpthread'])
+
 	# Standard search path
 	env.Append(CFLAGS='-I.')
 
@@ -126,7 +130,7 @@ for env in [arm, thumb]:
 	env.Append(CFLAGS='-Wall -Wextra -Wstrict-prototypes -Wold-style-definition -Wmissing-prototypes -Wmissing-declarations -Werror=declaration-after-statement -Werror=implicit-function-declaration')
 
 	# librt is needed for clock_gettime
-	env.Append(LIBS='-lrt')
+	env.Append(LIBS=['-lrt'])
 
 arm.Append(CFLAGS='-marm')
 arm.Append(ASFLAGS='-marm')
