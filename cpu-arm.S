@@ -453,5 +453,17 @@ TEST_ENTRY(test9fpm)
 	bne .L9fpm
 TEST_END(test9fpm)
 
+TEST_ENTRY(test10fpq)
+.L10fpq:
+	sub r0, r4, 1
+	vmov s14, r0
+	vcvt.f32.s32 s0, s14
+	.rept 32
+	vsqrt.f32 s1, s0
+	.endr
+	subs r4, #1
+	bne .L10fpq
+TEST_END(test10fpq)
+
 	.comm   p2,4,4
 	.comm   p1,4,4

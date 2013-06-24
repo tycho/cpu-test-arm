@@ -238,6 +238,7 @@ int main(int argc, char **argv)
 
 		run_test(test8mul,   NULL, "test 8 multiply ", LOOPS, INSTR);
 		run_test(test9fpm,   NULL, "test 9 FP mult  ", LOOPS, INSTR);
+		run_test(test10fpq,  NULL, "test 10 FP sqrt ", LOOPS, INSTR);
 	}
 
 	if (vfKernelTests) {
