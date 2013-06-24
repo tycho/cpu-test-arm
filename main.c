@@ -233,6 +233,10 @@ int main(int argc, char **argv)
 		run_test(test6zr,   NULL, "test 6 and0 mreg", LOOPS, INSTR);
 		run_test(test6m1,   NULL, "test 6 or-1 mreg", LOOPS, INSTR);
 		run_test(test6l1,   NULL, "test 6 pushpop 1", LOOPS, INSTR);
+
+		/* test7 = unsigned integer divide -- unavailable on ARMv7-A */
+
+		run_test(test8mul,   NULL, "test 8 multiply ", LOOPS, INSTR);
 	}
 
 	if (vfKernelTests) {

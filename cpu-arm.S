@@ -429,5 +429,15 @@ TEST_ENTRY(test6l1)
 	bne .L6l1
 TEST_END(test6l1)
 
+TEST_ENTRY(test8mul)
+.L8mul:
+	sub r0, r4, 1
+	.rept 32
+	mul r0, r0, r4
+	.endr
+	subs r4, #1
+	bne .L8mul
+TEST_END(test8mul)
+
 	.comm   p2,4,4
 	.comm   p1,4,4
