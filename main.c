@@ -230,6 +230,8 @@ int main(int argc, char **argv)
 		run_test(test5m1,   NULL, "test 5 -1 to mem", LOOPS, INSTR);
 		run_test(test5l1,   NULL, "test 5 load 1   ", LOOPS, INSTR);
 
+		run_test(test7d,    NULL, "test 7 divide   ", LOOPS, INSTR);
+
 		run_test(test6zi,   NULL, "test 6 and0 mimm", LOOPS, INSTR);
 		run_test(test6zr,   NULL, "test 6 and0 mreg", LOOPS, INSTR);
 		run_test(test6m1,   NULL, "test 6 or-1 mreg", LOOPS, INSTR);

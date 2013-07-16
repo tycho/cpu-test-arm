@@ -133,9 +133,9 @@ for env in [arm, thumb]:
 	env.Append(LIBS=['-lrt'])
 
 arm.Append(CFLAGS='-marm')
-arm.Append(ASFLAGS='-marm')
+arm.Append(ASFLAGS='-marm -mcpu=cortex-a15')
 thumb.Append(CFLAGS='-mthumb')
-thumb.Append(ASFLAGS='-mthumb')
+thumb.Append(ASFLAGS='-mthumb -mcpu=cortex-a15')
 
 sources = [
 	'main.c',
