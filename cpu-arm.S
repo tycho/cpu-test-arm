@@ -364,8 +364,8 @@ TEST_ENTRY(test6zr)
 	ldr r8, [sp, #28]
 	and r8, r9
 	str r8, [sp, #28]
-	subs r4, #1
 	.endr
+	subs r4, #1
 	bne .L6zr
 	add sp, 32
 TEST_END(test6zr)
