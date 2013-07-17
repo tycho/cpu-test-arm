@@ -105,6 +105,7 @@ arm = Environment(ENV=os.environ)
 thumb = Environment(ENV=os.environ)
 
 debug = ARGUMENTS.get('debug', 0)
+cpu = ARGUMENTS.get('cpu', 'cortex-a8')
 
 for env in [arm, thumb]:
 	env.Decider('MD5-timestamp')
@@ -113,8 +114,9 @@ for env in [arm, thumb]:
 	else:
 		env.Append(CFLAGS='-O2')
 
-	# Architecture defaults to ARMv7-a.
-	env.Append(CFLAGS='-march=armv7-a')
+	# Architecture revision
+	env.Append(CFLAGS='-mcpu=%s' % (cpu))
+	env.Append(ASFLAGS='-mcpu=%s' % (cpu))
 
 	# Basic CFLAGS for correctness
 	env.Append(CFLAGS='-std=gnu89 -fno-strict-aliasing')
@@ -133,9 +135,9 @@ for env in [arm, thumb]:
 	env.Append(LIBS=['-lrt'])
 
 arm.Append(CFLAGS='-marm')
-arm.Append(ASFLAGS='-marm -mcpu=cortex-a15')
+arm.Append(ASFLAGS='-marm')
 thumb.Append(CFLAGS='-mthumb')
-thumb.Append(ASFLAGS='-mthumb -mcpu=cortex-a15')
+thumb.Append(ASFLAGS='-mthumb')
 
 sources = [
 	'main.c',

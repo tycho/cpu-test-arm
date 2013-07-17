@@ -429,6 +429,7 @@ TEST_ENTRY(test6l1)
 	bne .L6l1
 TEST_END(test6l1)
 
+#ifdef __ARM_ARCH_EXT_IDIV__
 TEST_ENTRY(test7d)
 .L7d:
 	mov r0, pc
@@ -440,6 +441,7 @@ TEST_ENTRY(test7d)
 	subs r4, #1
 	bne .L7d
 TEST_END(test6l1)
+#endif
 
 TEST_ENTRY(test8mul)
 .L8mul:
