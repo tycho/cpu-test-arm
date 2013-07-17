@@ -54,14 +54,12 @@ static void run_test(void (*btest)(void), uint32_t (*ttest)(void), char *title, 
 	float ipc, clk;
 
 	pthread_yield();
-#if 0
 	if (!overhead) {
 		printf("calculating test overhead... ");
 		fflush(stdout);
 		overhead = get_overhead();
 		printf("%u usec\n", overhead);
 	}
-#endif
 	for (i = 0; i < 3; i++) {
 		if (btest) {
 			res = tm_resolution();
