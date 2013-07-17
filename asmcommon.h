@@ -112,7 +112,7 @@
   .LOOPS##name: \
     .word LOOPS; \
   ENTRY(name); \
-  push {r0-r8}; \
+  push {r0-r12}; \
   ldr r3, .LOOPS##name; \
   ldr r4, [r3, #0];
 
@@ -121,7 +121,7 @@
   ASM_SIZE_DIRECTIVE(name)
 
 #define TEST_END(name) \
-  pop {r0-r8}; \
+  pop {r0-r12}; \
   DO_RET(lr); \
   END(name)
 
