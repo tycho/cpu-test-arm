@@ -337,9 +337,9 @@ TEST_END(test6zi)
 
 TEST_ENTRY(test6zr)
 	sub sp, #32
+	mov r9, #0
 .L6zr:
 	.rept 4
-	mov r9, #0
 	ldr r0, [sp]
 	and r0, r9
 	str r0, [sp]
