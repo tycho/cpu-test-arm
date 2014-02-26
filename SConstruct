@@ -104,15 +104,19 @@ def generate_license_header(**kwargs):
 arm = Environment(ENV=os.environ)
 thumb = Environment(ENV=os.environ)
 
-debug = ARGUMENTS.get('debug', 0)
+debug = int(ARGUMENTS.get('debug', 0))
+static = int(ARGUMENTS.get('static', 0))
 cpu = ARGUMENTS.get('cpu', 'cortex-a8')
 
 for env in [arm, thumb]:
 	env.Decider('MD5-timestamp')
-	if int(debug):
+	if debug:
 		env.Append(CFLAGS='-O0 -ggdb')
 	else:
 		env.Append(CFLAGS='-O2')
+
+	if static:
+		env.Append(LINKFLAGS='-static')
 
 	# Architecture revision
 	env.Append(CFLAGS='-mcpu=%s' % (cpu))
